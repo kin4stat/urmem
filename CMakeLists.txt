@@ -1,7 +1,13 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.15)
 
 project("urmem")
 
-add_library(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include/urmem/urmem.hpp)
+OPTION(BUILD_EXAMPLES "Build the examples" OFF)
 
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_library(${PROJECT_NAME} INTERFACE)
+
+target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
+if (BUILD_EXAMPLES)
+    add_subdirectory(example)
+endif()
